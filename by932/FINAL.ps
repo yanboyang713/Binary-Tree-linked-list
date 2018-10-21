@@ -1,0 +1,2250 @@
+%!PS-Adobe-3.0
+%%Title: stdin
+%%For: Daniel Saffioti
+%%Creator: a2ps version 4.14
+%%CreationDate: Sun Nov  9 17:16:40 2014
+%%BoundingBox: 24 24 588 768
+%%DocumentData: Clean7Bit
+%%Orientation: Landscape
+%%Pages: 25
+%%PageOrder: Ascend
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: font Courier
+%%+ font Courier-Bold
+%%+ font Courier-BoldOblique
+%%+ font Courier-Oblique
+%%+ font Helvetica
+%%+ font Helvetica-Bold
+%%+ font Symbol
+%%+ font Times-Bold
+%%+ font Times-Roman
+%%DocumentProcessColors: Black 
+%%DocumentSuppliedResources: procset a2ps-a2ps-hdr
+%%+ procset a2ps-black+white-Prolog
+%%+ encoding ISO-8859-1Encoding
+%%EndComments
+/a2psdict 200 dict def
+a2psdict begin
+%%BeginProlog
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+
+% EPSF import as in the Red Book
+/BeginInclude {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack 
+  userdict begin
+    0 setgray 0 setlinecap
+    1 setlinewidth 0 setlinejoin
+    10 setmiterlimit [ ] 0 setdash newpath
+    gs_languagelevel 1 ne {
+      false setstrokeadjust false setoverprint 
+    } if
+} bind def
+
+/EndInclude {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+/BeginEPSF {
+  BeginInclude
+  /showpage { } def
+} bind def
+
+/EndEPSF {
+  EndInclude
+} bind def
+
+% Page prefeed
+/page_prefeed {         % bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} bind def
+
+/deffont {
+  findfont exch scalefont def
+} bind def
+
+/reencode_font {
+  findfont reencode 2 copy definefont pop def
+} bind def
+
+% Function c-show (str => -)
+% centers text only according to x axis.
+/c-show { 
+  dup stringwidth pop
+  2 div neg 0 rmoveto
+  show
+} bind def
+
+% Function l-show (str => -)
+% prints texts so that it ends at currentpoint
+/l-show {
+  dup stringwidth pop neg 
+  0 
+  rmoveto show
+} bind def
+
+% center-fit show (str w => -)
+% show centered, and scale currentfont so that the width is less than w
+/cfshow {
+  exch dup stringwidth pop
+  % If the title is too big, try to make it smaller
+  3 2 roll 2 copy
+  gt
+  { % if, i.e. too big
+    exch div
+    currentfont exch scalefont setfont
+  } { % ifelse
+    pop pop 
+  }
+  ifelse
+  c-show			% center title
+} bind def
+
+% Return the y size of the current font
+% - => fontsize
+/currentfontsize {
+  currentfont /FontMatrix get 3 get 1000 mul
+} bind def
+
+% reencode the font
+% <encoding-vector> <fontdict> -> <newfontdict>
+/reencode { %def
+  dup length 5 add dict begin
+    { %forall
+      % <vector> <key> <val>
+      1 index /FID ne 
+      { def }{ pop pop } ifelse
+    } forall
+    /Encoding exch def % -
+
+    % Use the font's bounding box to determine the ascent, descent,
+    % and overall height; don't forget that these values have to be
+    % transformed using the font's matrix.
+    % We use `load' because sometimes BBox is executable, sometimes not.
+    % Since we need 4 numbers an not an array avoid BBox from being executed
+    /FontBBox load aload pop
+    FontMatrix transform /Ascent exch def pop
+    FontMatrix transform /Descent exch def pop
+    /FontHeight Ascent Descent sub def
+
+    % Get the underline position and thickness if they're defined.
+    % Use 1 if they are not defined.
+    currentdict /FontInfo 2 copy known
+    { get
+      /UnderlinePosition 2 copy % <FontInfo> /UP <FontInfo> /UP
+      2 copy known
+      { get }{ pop pop 1 } ifelse
+      0 exch FontMatrix transform exch pop
+      def % <FontInfo>
+
+      /UnderlineThickness 2 copy % <FontInfo> /UT <FontInfo> /UT
+      2 copy known
+      { get }{ pop pop 1 } ifelse
+      0 exch FontMatrix transform exch pop
+      def % <FontInfo>
+      pop % -
+    }{ pop pop
+    } ifelse
+
+    currentdict
+  end 
+} bind def
+
+% Function print line number (<string> # -)
+/# {
+  gsave
+    sx cw mul neg 2 div 0 rmoveto
+    f# setfont
+    c-show
+  grestore
+} bind def
+
+% -------- Some routines to enlight plain b/w printings ---------
+
+% Underline
+% width --
+/dounderline {
+  currentpoint
+  gsave
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    0 rlineto
+    stroke
+  grestore
+} bind def
+
+% Underline a string
+% string --
+/dounderlinestring {
+  stringwidth pop
+  dounderline
+} bind def
+
+/UL {
+  /ul exch store
+} bind def
+
+% Draw a box of WIDTH wrt current font
+% width --
+/dobox {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    stroke
+  grestore
+} bind def
+
+/BX {
+  /bx exch store
+} bind def
+
+% Box a string
+% string --
+/doboxstring {
+  stringwidth pop
+  dobox
+} bind def
+
+%
+% ------------- Color routines ---------------
+%
+/FG /setrgbcolor load def
+
+% Draw the background
+% width --
+/dobackground {
+  currentpoint
+  gsave
+    newpath
+    moveto
+    0 currentfont /Descent get currentfontsize mul rmoveto
+    dup 0 rlineto
+    0 currentfont /FontHeight get currentfontsize mul rlineto
+    neg 0 rlineto
+    closepath
+    bgcolor aload pop setrgbcolor
+    fill
+  grestore
+} bind def
+
+% Draw bg for a string
+% string --
+/dobackgroundstring {
+  stringwidth pop
+  dobackground
+} bind def
+
+
+/BG {
+  dup /bg exch store
+  { mark 4 1 roll ] /bgcolor exch store } if
+} bind def
+
+
+/Show {
+  bg { dup dobackgroundstring } if
+  ul { dup dounderlinestring } if
+  bx { dup doboxstring } if
+  show
+} bind def
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T {
+  cw mul x0 add
+  bg { dup currentpoint pop sub dobackground } if
+  ul { dup currentpoint pop sub dounderline } if
+  bx { dup currentpoint pop sub dobox } if
+  y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n {
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+/S {
+  Show
+} bind def
+
+%%BeginResource: procset a2ps-a2ps-hdr 2.0 2
+%%Copyright: (c) 1988, 89, 90, 91, 92, 93 Miguel Santana
+%%Copyright: (c) 1995, 96, 97, 98 Akim Demaille, Miguel Santana
+% Function title: prints page header.
+% <ct> <rt> <lt> are passed as argument
+/title { 
+  % 1. Draw the background
+  x v get y v get moveto
+  gsave
+    0 th 2 div neg rmoveto 
+    th setlinewidth
+    0.95 setgray
+    pw 0 rlineto stroke
+  grestore
+  % 2. Border it
+  gsave
+    0.7 setlinewidth
+    pw 0 rlineto
+    0 th neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+  % stk: ct rt lt
+  x v get y v get th sub 1 add moveto
+%%IncludeResource: font Helvetica
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  % 3. The left title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    fnfs 0.8 mul hm rmoveto
+    show			% left title
+  grestore
+  exch
+  % stk: ct ltw rt
+  % 4. the right title
+  gsave
+    dup stringwidth pop fnfs 0.8 mul add exch % leave space took on stack
+    dup
+    pw exch stringwidth pop fnfs 0.8 mul add sub
+    hm
+    rmoveto
+    show			% right title
+  grestore
+  % stk: ct ltw rtw
+  % 5. the center title
+  gsave
+    pw 3 1 roll
+    % stk: ct pw ltw rtw
+    3 copy 
+    % Move to the center of the left room
+    sub add 2 div hm rmoveto
+    % What is the available space in here?
+    add sub fnfs 0.8 mul sub fnfs 0.8 mul sub
+    % stk: ct space_left
+%%IncludeResource: font Helvetica-Bold
+  fHelvetica-Bold fnfs scalefont setfont
+    cfshow
+  grestore
+} bind def
+
+% Function border: prints virtual page border
+/border { %def
+  gsave				% print four sides
+    0 setgray
+    x v get y v get moveto
+    0.7 setlinewidth		% of the square
+    pw 0 rlineto
+    0 ph neg rlineto
+    pw neg 0 rlineto
+    closepath stroke
+  grestore
+} bind def
+
+% Function water: prints a water mark in background
+/water { %def
+  gsave
+    scx scy moveto rotate
+%%IncludeResource: font Times-Bold
+  fTimes-Bold 100 scalefont setfont
+    .97 setgray
+    dup stringwidth pop 2 div neg -50 rmoveto
+    show
+  grestore
+} bind def
+
+% Function rhead: prints the right header
+/rhead {  %def
+  lx ly moveto
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  l-show
+} bind def
+
+% Function footer (cf rf lf -> -)
+/footer {
+  fHelvetica fnfs 0.8 mul scalefont setfont
+  dx dy moveto
+  show
+
+  snx sny moveto
+  l-show
+  
+  fnx fny moveto
+  c-show
+} bind def
+%%EndResource
+%%BeginResource: procset a2ps-black+white-Prolog 2.0 1
+
+% Function T(ab), jumps to the n-th tabulation in the current line
+/T { 
+  cw mul x0 add y0 moveto
+} bind def
+
+% Function n: move to the next line
+/n { %def
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+} bind def
+
+% Function N: show and move to the next line
+/N {
+  Show
+  /y0 y0 bfs sub store
+  x0 y0 moveto
+}  bind def
+
+/S {
+  Show
+} bind def
+
+/p {
+  false UL
+  false BX
+  fCourier bfs scalefont setfont
+  Show
+} bind def
+
+/sy {
+  false UL
+  false BX
+  fSymbol bfs scalefont setfont
+  Show
+} bind def
+
+/k {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/K {
+  false UL
+  false BX
+  fCourier-Bold bfs scalefont setfont
+  Show
+} bind def
+
+/c {
+  false UL
+  false BX
+  fCourier-Oblique bfs scalefont setfont
+  Show
+} bind def
+
+/C {
+  false UL
+  false BX
+  fCourier-BoldOblique bfs scalefont setfont
+  Show 
+} bind def
+
+/l {
+  false UL
+  false BX
+  fHelvetica bfs scalefont setfont
+  Show
+} bind def
+
+/L {
+  false UL
+  false BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show 
+} bind def
+
+/str{
+  false UL
+  false BX
+  fTimes-Roman bfs scalefont setfont
+  Show
+} bind def
+
+/e{
+  false UL
+  true BX
+  fHelvetica-Bold bfs scalefont setfont
+  Show
+} bind def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier
+%%IncludeResource: font Courier-Oblique
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Times-Roman
+%%IncludeResource: font Symbol
+%%IncludeResource: font Courier-BoldOblique
+%%BeginResource: encoding ISO-8859-1Encoding
+/ISO-8859-1Encoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclam /quotedbl /numbersign /dollar /percent /ampersand /quoteright 
+/parenleft /parenright /asterisk /plus /comma /minus /period /slash 
+/zero /one /two /three /four /five /six /seven 
+/eight /nine /colon /semicolon /less /equal /greater /question 
+/at /A /B /C /D /E /F /G 
+/H /I /J /K /L /M /N /O 
+/P /Q /R /S /T /U /V /W 
+/X /Y /Z /bracketleft /backslash /bracketright /asciicircum /underscore 
+/quoteleft /a /b /c /d /e /f /g 
+/h /i /j /k /l /m /n /o 
+/p /q /r /s /t /u /v /w 
+/x /y /z /braceleft /bar /braceright /asciitilde /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef 
+/space /exclamdown /cent /sterling /currency /yen /brokenbar /section 
+/dieresis /copyright /ordfeminine /guillemotleft /logicalnot /hyphen /registered /macron 
+/degree /plusminus /twosuperior /threesuperior /acute /mu /paragraph /bullet 
+/cedilla /onesuperior /ordmasculine /guillemotright /onequarter /onehalf /threequarters /questiondown 
+/Agrave /Aacute /Acircumflex /Atilde /Adieresis /Aring /AE /Ccedilla 
+/Egrave /Eacute /Ecircumflex /Edieresis /Igrave /Iacute /Icircumflex /Idieresis 
+/Eth /Ntilde /Ograve /Oacute /Ocircumflex /Otilde /Odieresis /multiply 
+/Oslash /Ugrave /Uacute /Ucircumflex /Udieresis /Yacute /Thorn /germandbls 
+/agrave /aacute /acircumflex /atilde /adieresis /aring /ae /ccedilla 
+/egrave /eacute /ecircumflex /edieresis /igrave /iacute /icircumflex /idieresis 
+/eth /ntilde /ograve /oacute /ocircumflex /otilde /odieresis /divide 
+/oslash /ugrave /uacute /ucircumflex /udieresis /yacute /thorn /ydieresis 
+] def
+%%EndResource
+% Initialize page description variables.
+/sh 612 def
+/sw 792 def
+/llx 24 def
+/urx 768 def
+/ury 588 def
+/lly 24 def
+/#copies 1 def
+/th 20.000000 def
+/fnfs 15 def
+/bfs 8.000000 def
+/cw 4.800000 def
+
+% Dictionary for ISO-8859-1 support
+/iso1dict 8 dict begin
+  /fCourier ISO-8859-1Encoding /Courier reencode_font
+  /fCourier-Bold ISO-8859-1Encoding /Courier-Bold reencode_font
+  /fCourier-BoldOblique ISO-8859-1Encoding /Courier-BoldOblique reencode_font
+  /fCourier-Oblique ISO-8859-1Encoding /Courier-Oblique reencode_font
+  /fHelvetica ISO-8859-1Encoding /Helvetica reencode_font
+  /fHelvetica-Bold ISO-8859-1Encoding /Helvetica-Bold reencode_font
+  /fTimes-Bold ISO-8859-1Encoding /Times-Bold reencode_font
+  /fTimes-Roman ISO-8859-1Encoding /Times-Roman reencode_font
+currentdict end def
+/bgcolor [ 0 0 0 ] def
+/bg false def
+/ul false def
+/bx false def
+% The font for line numbering
+/f# /Helvetica findfont bfs .6 mul scalefont def
+/fSymbol /Symbol findfont def
+/hm fnfs 0.25 mul def
+/pw
+   cw 154.400000 mul
+def
+/ph
+   517.600000 th add
+def
+/pmw 0 def
+/pmh 0 def
+/v 0 def
+/x [
+  0
+] def
+/y [
+  pmh ph add 0 mul ph add
+] def
+/scx sw 2 div def
+/scy sh 2 div def
+/snx urx def
+/sny lly 2 add def
+/dx llx def
+/dy sny def
+/fnx scx def
+/fny dy def
+/lx snx def
+/ly ury fnfs 0.8 mul sub def
+/sx 0 def
+/tab 8 def
+/x0 0 def
+/y0 0 def
+%%EndSetup
+
+%%Page: (1) 1
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(                 #####   #####   #####) p n
+( #####    #   # #     # #     # #     #) N
+( #    #    # #  #     #       #       #) N
+( #####      #    ######  #####   #####) N
+( #    #     #         #       # #) N
+( #    #     #   #     # #     # #) N
+( #####      #    #####   #####  #######) N
+() N
+() N
+(stdin) (Page 1/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (1/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (2) 2
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/binarytree.cpp Page 1) N
+() N
+() N
+(  1) S 8 T (/********************************) N
+(  2) S 8 T (*Filename:binarytree.cpp) S 40 T (*) N
+(  3) S 8 T (*Login:by932) S 24 T () S 32 T () S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () S 104 T () N
+(  4) S 8 T (*AssignmentNo:ass5) S 32 T () S 40 T (*) N
+(  5) S 8 T (*DateLastModified:2/11/2014) S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(  6) S 8 T (********************************/) N
+(  7) S 8 T (#include <iostream>) N
+(  8) S 8 T (#include "binarytree.h") N
+(  9) S 8 T (using namespace std;) N
+( 10) S 8 T () N
+( 11) S 8 T (int TreeDataCmp\(const linked_list& first, const linked_list& second\)) N
+( 12) S 8 T ({) N
+( 13) S 8 T () S 16 T (if \(first->line_num < second->line_num\)) N
+( 14) S 8 T () S 16 T () S 24 T (return -1;) N
+( 15) S 8 T () S 16 T (if \(first->line_num == second->line_num\)) N
+( 16) S 8 T () S 16 T () S 24 T (return 0;) N
+( 17) S 8 T () S 16 T (if \(first->line_num > second->line_num\)) N
+( 18) S 8 T () S 16 T () S 24 T (return 1;) N
+( 19) S 8 T () S 16 T (return 0;) N
+( 20) S 8 T (}) N
+( 21) S 8 T () N
+( 22) S 8 T (BinaryTree::BinaryTree\(\)) N
+( 23) S 8 T ({) N
+( 24) S 8 T () S 16 T (root = NULL;) N
+( 25) S 8 T (}) N
+( 26) S 8 T (BinaryTree::~BinaryTree\(\)) N
+( 27) S 8 T ({) N
+( 28) S 8 T () S 16 T (postorderdelete\(root\);) N
+( 29) S 8 T (}) N
+( 30) S 8 T (void BinaryTree::postorderdelete\(TreeNode* curr\)) N
+( 31) S 8 T ({) N
+( 32) S 8 T () S 16 T (if \(curr != NULL\)) N
+( 33) S 8 T () S 16 T ({) N
+( 34) S 8 T () S 16 T () S 24 T (postorderdelete\(curr->left\);) N
+( 35) S 8 T () S 16 T () S 24 T (postorderdelete\(curr->right\);) N
+( 36) S 8 T () S 16 T () S 24 T () N
+( 37) S 8 T () S 16 T () S 24 T (delete curr;) N
+( 38) S 8 T () S 16 T (}) N
+( 39) S 8 T (}) N
+( 40) S 8 T (void BinaryTree::SetIterator\(\)) N
+( 41) S 8 T ({) N
+( 42) S 8 T () S 16 T (curr = root;) N
+( 43) S 8 T () S 16 T (if \(curr != NULL\)) N
+( 44) S 8 T () S 16 T () S 24 T (while \(curr->left != NULL\)) N
+( 45) S 8 T () S 16 T () S 24 T () S 32 T (curr = curr->left;) N
+( 46) S 8 T (}) N
+( 47) S 8 T () N
+( 48) S 8 T (linked_list BinaryTree::Next\(\)) N
+( 49) S 8 T ({) N
+( 50) S 8 T () S 16 T (linked_list rvalue = curr->data;) N
+( 51) S 8 T () N
+( 52) S 8 T () S 16 T (if \(curr->right != NULL\)) S 48 T (// into the right subtree) N
+( 53) S 8 T () S 16 T ({) N
+( 54) S 8 T () S 16 T () S 24 T (curr = curr->right;) N
+( 55) S 8 T () S 16 T () S 24 T (while \(curr->left != NULL\)) N
+( 56) S 8 T () S 16 T () S 24 T () S 32 T (curr = curr->left;) N
+() N
+(stdin) (Page 2/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (2/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (3) 3
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/binarytree.cpp Page 2) N
+() N
+() N
+( 57) S 8 T () S 16 T (}) N
+( 58) S 8 T () S 16 T (else if \(curr->parent == NULL\)) S 48 T (// no parent) N
+( 59) S 8 T () S 16 T () S 24 T (curr = NULL;) S 40 T () S 48 T (// we are finished) N
+( 60) S 8 T () S 16 T (else) S 24 T () S 32 T () S 40 T () S 48 T (// find ancestor) N
+( 61) S 8 T () S 16 T ({) N
+( 62) S 8 T () S 16 T () S 24 T (while \(curr->parent != NULL) N
+( 63) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (&& \(curr->parent\)->left != curr\)) N
+( 64) S 8 T () S 16 T () S 24 T () S 32 T (curr = curr->parent;) N
+( 65) S 8 T () S 16 T () S 24 T (curr = curr->parent;) N
+( 66) S 8 T () S 16 T (}) N
+( 67) S 8 T () S 16 T (return rvalue;) N
+( 68) S 8 T (}) S 16 T () S 24 T () N
+( 69) S 8 T () N
+( 70) S 8 T () N
+( 71) S 8 T (bool BinaryTree::More\(\)) N
+( 72) S 8 T ({) N
+( 73) S 8 T () S 16 T (if \(curr != NULL\)) N
+( 74) S 8 T () S 16 T () S 24 T (return true;) N
+( 75) S 8 T () S 16 T (else) N
+( 76) S 8 T () S 16 T () S 24 T (return false;) N
+( 77) S 8 T (}) S 16 T () N
+( 78) S 8 T () N
+( 79) S 8 T () N
+( 80) S 8 T () N
+( 81) S 8 T (void BinaryTree::Insert\(const linked_list& data\)) N
+( 82) S 8 T ({) N
+( 83) S 8 T () S 16 T (InsertNode\(data, root\);) N
+( 84) S 8 T (}) N
+( 85) S 8 T () N
+( 86) S 8 T (bool BinaryTree::Locate\(const linked_list& data, linked_list& founddata\)) N
+( 87) S 8 T ({) N
+( 88) S 8 T () S 16 T (TreeNode* foundNode = FindNode\(data, root\);) N
+( 89) S 8 T () S 16 T () N
+( 90) S 8 T () S 16 T (if \(foundNode != NULL\)) N
+( 91) S 8 T () S 16 T ({) N
+( 92) S 8 T () S 16 T () S 24 T (founddata = foundNode->data;) N
+( 93) S 8 T () S 16 T () S 24 T (return true;) N
+( 94) S 8 T () S 16 T (}) N
+( 95) S 8 T () S 16 T (else) N
+( 96) S 8 T () S 16 T () S 24 T (return false;) N
+( 97) S 8 T () N
+( 98) S 8 T (}) N
+( 99) S 8 T () N
+(100) S 8 T (bool BinaryTree::Delete\(const linked_list& data, linked_list& deldata\)) N
+(101) S 8 T ({) N
+(102) S 8 T () S 16 T (TreeNode *parent, *prev, *curr = FindNode\(data, root\);) N
+(103) S 8 T () S 16 T () N
+(104) S 8 T () S 16 T (if \(curr == NULL\)) N
+(105) S 8 T () S 16 T () S 24 T (return false;) N
+(106) S 8 T () S 16 T (deldata = curr->data;) N
+(107) S 8 T () S 16 T (parent = curr->parent;) N
+(108) S 8 T () S 16 T (if \(curr->left == NULL\)) S 40 T () S 48 T () S 56 T (// no left subtree) N
+(109) S 8 T () S 16 T ({) N
+(110) S 8 T () S 16 T () S 24 T (if \(curr->right == NULL\)) S 56 T (// no children) N
+(111) S 8 T () S 16 T () S 24 T ({) N
+(112) S 8 T () S 16 T () S 24 T () S 32 T (if \(parent == NULL\)) S 56 T (// curr is root) N
+() N
+(stdin) (Page 3/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (3/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (4) 4
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/binarytree.cpp Page 3) N
+() N
+() N
+(113) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (root = NULL;) N
+(114) S 8 T () S 16 T () S 24 T () S 32 T (else if \(parent->left == curr\)) N
+(115) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (parent->left = NULL;) N
+(116) S 8 T () S 16 T () S 24 T () S 32 T (else) N
+(117) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (parent->right = NULL;) N
+(118) S 8 T () S 16 T () S 24 T (}) N
+(119) S 8 T () S 16 T () S 24 T (else) S 32 T () S 40 T () S 48 T () S 56 T (// only right subtree) N
+(120) S 8 T () S 16 T () S 24 T ({) N
+(121) S 8 T () S 16 T () S 24 T () S 32 T (if \(parent == NULL\)) N
+(122) S 8 T () S 16 T () S 24 T () S 32 T ({) N
+(123) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (root = curr->right;) N
+(124) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (root->parent = NULL;) N
+(125) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+(126) S 8 T () S 16 T () S 24 T () S 32 T (else if \(parent->left == curr\)) N
+(127) S 8 T () S 16 T () S 24 T () S 32 T ({) N
+(128) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (parent->left = curr->right;) N
+(129) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (curr->right->parent = parent;) N
+(130) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+(131) S 8 T () S 16 T () S 24 T () S 32 T (else) N
+(132) S 8 T () S 16 T () S 24 T () S 32 T ({) N
+(133) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (parent->right = curr->right;) N
+(134) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (curr->right->parent = parent;) N
+(135) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+(136) S 8 T () S 16 T () S 24 T (}) N
+(137) S 8 T () S 16 T (}) N
+(138) S 8 T () S 16 T (else if \(curr->right == NULL\)) S 48 T () S 56 T (// only left subtree) N
+(139) S 8 T () S 16 T ({) N
+(140) S 8 T () S 16 T () S 24 T (if \(parent == NULL\)) N
+(141) S 8 T () S 16 T () S 24 T ({) N
+(142) S 8 T () S 16 T () S 24 T () S 32 T (root = curr->left;) N
+(143) S 8 T () S 16 T () S 24 T () S 32 T (root->parent = NULL;) N
+(144) S 8 T () S 16 T () S 24 T (}) N
+(145) S 8 T () S 16 T () S 24 T (else if \(parent->left == curr\)) N
+(146) S 8 T () S 16 T () S 24 T ({) N
+(147) S 8 T () S 16 T () S 24 T () S 32 T (parent->left = curr->left;) N
+(148) S 8 T () S 16 T () S 24 T () S 32 T (curr->left->parent = parent;) N
+(149) S 8 T () S 16 T () S 24 T (}) N
+(150) S 8 T () S 16 T () S 24 T (else) N
+(151) S 8 T () S 16 T () S 24 T ({) N
+(152) S 8 T () S 16 T () S 24 T () S 32 T (parent->right = curr->left;) N
+(153) S 8 T () S 16 T () S 24 T () S 32 T (curr->left->parent = parent;) N
+(154) S 8 T () S 16 T () S 24 T (}) N
+(155) S 8 T () S 16 T (}) N
+(156) S 8 T () S 16 T (else) S 24 T () S 32 T () S 40 T () S 48 T (// has both subtrees) N
+(157) S 8 T () S 16 T ({) N
+(158) S 8 T () S 16 T () S 24 T (prev = curr->left;) N
+(159) S 8 T () S 16 T () S 24 T (while \(prev->right != NULL\)) N
+(160) S 8 T () S 16 T () S 24 T () S 32 T (prev = prev->right;) N
+(161) S 8 T () S 16 T () S 24 T (prev->right = curr->right;) N
+(162) S 8 T () S 16 T () S 24 T (curr->right->parent = prev;) N
+(163) S 8 T () S 16 T () S 24 T (if \(parent == NULL\)) N
+(164) S 8 T () S 16 T () S 24 T ({) N
+(165) S 8 T () S 16 T () S 24 T () S 32 T (root = curr->left;) N
+(166) S 8 T () S 16 T () S 24 T () S 32 T (root->parent = NULL;) N
+(167) S 8 T () S 16 T () S 24 T (}) N
+(168) S 8 T () S 16 T () S 24 T (else) N
+() N
+(stdin) (Page 4/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (4/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (5) 5
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/binarytree.cpp Page 4) N
+() N
+() N
+(169) S 8 T () S 16 T () S 24 T ({) N
+(170) S 8 T () S 16 T () S 24 T () S 32 T (parent->right = curr->left;) N
+(171) S 8 T () S 16 T () S 24 T () S 32 T (curr->left->parent = parent;) N
+(172) S 8 T () S 16 T () S 24 T (}) N
+(173) S 8 T () S 16 T (}) N
+(174) S 8 T () S 16 T (delete curr;) N
+(175) S 8 T () S 16 T (return true;) N
+(176) S 8 T (}) N
+(177) S 8 T () N
+(178) S 8 T () N
+(179) S 8 T (BinaryTree::TreeNode* BinaryTree::FindNode\(const linked_list& data, BinaryTree::TreeNode* tree_root\)) N
+(180) S 8 T ({) N
+(181) S 8 T () S 16 T (if \(tree_root == NULL\)) N
+(182) S 8 T () S 16 T ({) N
+(183) S 8 T () S 16 T () S 24 T (return 0;) N
+(184) S 8 T () S 16 T (}) S 24 T () N
+(185) S 8 T () S 16 T (int Result = TreeDataCmp\(data,tree_root->data\);) N
+(186) S 8 T () N
+(187) S 8 T () S 16 T (if \(Result == 0\)) N
+(188) S 8 T () S 16 T () S 24 T (return tree_root;) N
+(189) S 8 T () S 16 T (if \(Result < 0 && tree_root->left != NULL\)) N
+(190) S 8 T () S 16 T () S 24 T (return FindNode\(data,tree_root->left\);) N
+(191) S 8 T () S 16 T (else if \(Result > 0 && tree_root->right != NULL\)) N
+(192) S 8 T () S 16 T () S 24 T (return FindNode\(data,tree_root->right\);) N
+(193) S 8 T () S 16 T (return 0;) N
+(194) S 8 T (}) N
+(195) S 8 T () N
+(196) S 8 T () N
+(197) S 8 T (void BinaryTree::InsertNode\(const linked_list& data, BinaryTree::TreeNode*& tree_root\)) N
+(198) S 8 T ({) N
+(199) S 8 T () S 16 T (//insert root node) N
+(200) S 8 T () S 16 T (if \(tree_root == NULL\)) N
+(201) S 8 T () S 16 T ({) N
+(202) S 8 T () S 16 T () S 24 T (tree_root = new TreeNode;) S 56 T (//set up a new node) N
+(203) S 8 T () S 16 T () S 24 T (tree_root->data = data;) N
+(204) S 8 T () S 16 T () S 24 T (tree_root->left = NULL;) N
+(205) S 8 T () S 16 T () S 24 T (tree_root->right = NULL;) N
+(206) S 8 T () S 16 T () S 24 T (tree_root->parent = NULL;) N
+(207) S 8 T () S 16 T (}) N
+(208) S 8 T () S 16 T (else if \(TreeDataCmp\(data,tree_root->data\) <= 0\)) N
+(209) S 8 T () S 16 T ({) N
+(210) S 8 T () S 16 T () S 24 T (if \(tree_root->left == NULL\)) N
+(211) S 8 T () S 16 T () S 24 T ({) N
+(212) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->left = new TreeNode;) N
+(213) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->left->data = data;) N
+(214) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->left->left = NULL;) N
+(215) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->left->right = NULL;) N
+(216) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->left->parent = tree_root;) N
+(217) S 8 T () S 16 T () S 24 T (}) N
+(218) S 8 T () S 16 T () S 24 T (else) S 32 T () N
+(219) S 8 T () S 16 T () S 24 T () S 32 T (InsertNode\(data,tree_root->left\);) N
+(220) S 8 T () S 16 T (}) N
+(221) S 8 T () S 16 T (else) N
+(222) S 8 T () S 16 T ({) N
+(223) S 8 T () S 16 T () S 24 T (if \(tree_root->right == NULL\)) N
+(224) S 8 T () S 16 T () S 24 T ({) N
+() N
+(stdin) (Page 5/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (5/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (6) 6
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/binarytree.cpp Page 5) N
+() N
+() N
+(225) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->right = new TreeNode;) N
+(226) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->right->data = data;) N
+(227) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->right->left = NULL;) N
+(228) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->right->right = NULL;) N
+(229) S 8 T () S 16 T () S 24 T () S 32 T (tree_root->right->parent = tree_root;) N
+(230) S 8 T () S 16 T () S 24 T (}) N
+(231) S 8 T () S 16 T () S 24 T (else) S 32 T () N
+(232) S 8 T ( ) S 16 T () S 24 T () S 32 T (InsertNode\(data,tree_root->right\);) N
+(233) S 8 T ( ) S 16 T (}) N
+(234) S 8 T (}) N
+(235) S 8 T () N
+() N
+(stdin) (Page 6/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (6/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (7) 7
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/linkedlist.cpp Page 1) N
+() N
+() N
+(  1) S 8 T (/********************************) N
+(  2) S 8 T (*Filename:linkedlist.cpp) S 40 T (*) N
+(  3) S 8 T (*Login:by932) S 24 T () S 32 T () S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () S 104 T () N
+(  4) S 8 T (*AssignmentNo:ass5) S 32 T () S 40 T (*) N
+(  5) S 8 T (*DateLastModified:2/11/2014) S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(  6) S 8 T (********************************/) N
+(  7) S 8 T (#include <iostream>) N
+(  8) S 8 T (#include "linkedlist.h") N
+(  9) S 8 T (using namespace std;) N
+( 10) S 8 T (int listdatacmp\(const T& a, const T& b\)) S 48 T () S 56 T () S 64 T (// user defined compare function) N
+( 11) S 8 T ({) N
+( 12) S 8 T () S 16 T () S 24 T (// return < 0 if a < b) N
+( 13) S 8 T () S 16 T () S 24 T (// return == 0 if a == b) N
+( 14) S 8 T () S 16 T () S 24 T (// return >0 if a > b;) N
+( 15) S 8 T () S 16 T () S 24 T () N
+( 16) S 8 T () S 16 T () S 24 T (return 0;) N
+( 17) S 8 T (}) N
+( 18) S 8 T () N
+( 19) S 8 T (// iterator methods) N
+( 20) S 8 T () N
+( 21) S 8 T (void linkedlist::setiterator\(\)) N
+( 22) S 8 T ({) N
+( 23) S 8 T (    iterator_current = head;) N
+( 24) S 8 T (}) N
+( 25) S 8 T () N
+( 26) S 8 T (// is there more in the iterator) N
+( 27) S 8 T () N
+( 28) S 8 T (bool linkedlist::more\(\)) N
+( 29) S 8 T ({) N
+( 30) S 8 T (    if \(iterator_current != NULL\)) N
+( 31) S 8 T (        return true;) N
+( 32) S 8 T (    else) N
+( 33) S 8 T (        return false;) N
+( 34) S 8 T (}) N
+( 35) S 8 T () N
+( 36) S 8 T (// get next piece of data out of iterator) N
+( 37) S 8 T () N
+( 38) S 8 T (T linkedlist::next\(\)) N
+( 39) S 8 T ({) N
+( 40) S 8 T (    T tmp = iterator_current->data;) N
+( 41) S 8 T (    iterator_current = iterator_current->next;) N
+( 42) S 8 T (    return tmp;) N
+( 43) S 8 T (}) N
+( 44) S 8 T () N
+( 45) S 8 T (void linkedlist::insertbeforecurrent\(const T& newdata\)) S 64 T () S 72 T () S 80 T (// insertion method) N
+( 46) S 8 T ({) N
+( 47) S 8 T () S 16 T (nodeptr tmp;) N
+( 48) S 8 T () S 16 T (tmp = new node;) N
+( 49) S 8 T () S 16 T (tmp->data = newdata;) N
+( 50) S 8 T () S 16 T (tmp->next = NULL;) N
+( 51) S 8 T () N
+( 52) S 8 T () S 16 T (nodeptr curr;) N
+( 53) S 8 T () S 16 T (nodeptr prev;) N
+( 54) S 8 T () S 16 T (curr = head;) N
+( 55) S 8 T () S 16 T (prev = NULL;) N
+( 56) S 8 T () N
+() N
+(stdin) (Page 7/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (7/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (8) 8
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/linkedlist.cpp Page 2) N
+() N
+() N
+( 57) S 8 T () S 16 T (while \(curr != iterator_current\)) N
+( 58) S 8 T () S 16 T ({) N
+( 59) S 8 T () S 16 T () S 24 T (prev = curr;) N
+( 60) S 8 T () S 16 T () S 24 T (curr = curr->next;) N
+( 61) S 8 T () S 16 T (}) N
+( 62) S 8 T () N
+( 63) S 8 T () S 16 T (if \(prev == NULL\)) N
+( 64) S 8 T () S 16 T () S 24 T (head = tmp;) N
+( 65) S 8 T () S 16 T (else) N
+( 66) S 8 T () S 16 T () S 24 T (prev->next = tmp;) N
+( 67) S 8 T () S 16 T (tmp->next = curr;) N
+( 68) S 8 T (}) N
+( 69) S 8 T () N
+( 70) S 8 T (bool linkedlist::deletecurrent\(T& retdata\)) S 56 T () S 64 T () N
+( 71) S 8 T ({) N
+( 72) S 8 T () S 16 T (nodeptr curr;) N
+( 73) S 8 T () S 16 T (nodeptr prev;) N
+( 74) S 8 T () S 16 T (curr = head;) N
+( 75) S 8 T () S 16 T (prev = NULL;) N
+( 76) S 8 T () S 16 T () N
+( 77) S 8 T (        if \(iterator_current == NULL\)) N
+( 78) S 8 T (            return false;) N
+( 79) S 8 T () N
+( 80) S 8 T () S 16 T (while \(curr != iterator_current\)) S 56 T () S 64 T (// find it) N
+( 81) S 8 T () S 16 T ({) N
+( 82) S 8 T () S 16 T () S 24 T (prev = curr;) N
+( 83) S 8 T () S 16 T () S 24 T (curr = curr->next;) N
+( 84) S 8 T () S 16 T (}) N
+( 85) S 8 T () N
+( 86) S 8 T () S 16 T (if \(curr == NULL\)) N
+( 87) S 8 T () S 16 T ({) N
+( 88) S 8 T () S 16 T () S 24 T (return false;) N
+( 89) S 8 T () S 16 T (}) N
+( 90) S 8 T () N
+( 91) S 8 T () S 16 T (if \(prev\)) N
+( 92) S 8 T () S 16 T ({) N
+( 93) S 8 T () S 16 T () S 24 T (prev->next = curr->next;) N
+( 94) S 8 T () S 16 T () S 24 T (retdata = curr->data;) N
+( 95) S 8 T () S 16 T () S 24 T (delete curr;) N
+( 96) S 8 T () S 16 T () S 24 T (return true;) N
+( 97) S 8 T () S 16 T (}) N
+( 98) S 8 T () S 16 T (else) N
+( 99) S 8 T () S 16 T ({) N
+(100) S 8 T () S 16 T () S 24 T (head = curr->next;) N
+(101) S 8 T () S 16 T () S 24 T (retdata = curr->data;) N
+(102) S 8 T () S 16 T () S 24 T (delete curr;) N
+(103) S 8 T () S 16 T () S 24 T (return true;) N
+(104) S 8 T () S 16 T (}) N
+(105) S 8 T (}) N
+(106) S 8 T () N
+(107) S 8 T (// constructor) N
+(108) S 8 T (linkedlist::linkedlist\(\)) N
+(109) S 8 T ({) N
+(110) S 8 T () S 16 T (head = NULL;) N
+(111) S 8 T (}) N
+(112) S 8 T (//deconstructor) N
+() N
+(stdin) (Page 8/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (8/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (9) 9
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/linkedlist.cpp Page 3) N
+() N
+() N
+(113) S 8 T (linkedlist::~linkedlist\(\)) N
+(114) S 8 T ({) N
+(115) S 8 T () S 16 T (node* temp = head;) N
+(116) S 8 T () S 16 T (while\(temp && temp->next\)) N
+(117) S 8 T () S 16 T ({) N
+(118) S 8 T () S 16 T () S 24 T (temp=temp->next;) N
+(119) S 8 T () S 16 T () S 24 T (delete temp;) S 40 T (//delet linked-list) N
+(120) S 8 T () S 16 T (}) N
+(121) S 8 T (} ) S 16 T () S 24 T () S 32 T () N
+(122) S 8 T (// add to tail method) N
+(123) S 8 T (void linkedlist::addtotail\(char token[], int line_no\)) N
+(124) S 8 T ({) N
+(125) S 8 T () S 16 T (nodeptr tmp, curr;) N
+(126) S 8 T () S 16 T (tmp = new node;) N
+(127) S 8 T () S 16 T (tmp->data.content = token;) N
+(128) S 8 T () S 16 T (tmp->data.line_num = line_no;) N
+(129) S 8 T () S 16 T (tmp->next = NULL;) N
+(130) S 8 T () N
+(131) S 8 T () S 16 T (if \(head != NULL\)) N
+(132) S 8 T () S 16 T ({) N
+(133) S 8 T () S 16 T () S 24 T (curr = head;) N
+(134) S 8 T () S 16 T () S 24 T (while \(curr->next\)) N
+(135) S 8 T () S 16 T () S 24 T () S 32 T (curr = curr->next;) N
+(136) S 8 T () S 16 T () S 24 T (curr->next = tmp;) N
+(137) S 8 T () S 16 T (}) N
+(138) S 8 T () S 16 T (else) N
+(139) S 8 T () S 16 T () S 24 T (head = tmp;) N
+(140) S 8 T (}) N
+(141) S 8 T () N
+(142) S 8 T (// check if list is empty method) N
+(143) S 8 T (bool linkedlist::isempty\(\)) N
+(144) S 8 T ({) N
+(145) S 8 T () S 16 T (if \(head == NULL\)) N
+(146) S 8 T () S 16 T () S 24 T (return true;) N
+(147) S 8 T () S 16 T (else) N
+(148) S 8 T () S 16 T () S 24 T (return false;) N
+(149) S 8 T (}) N
+(150) S 8 T () N
+(151) S 8 T (// remove from head method) N
+(152) S 8 T (T linkedlist::removefromhead\(\)) N
+(153) S 8 T ({) N
+(154) S 8 T () S 16 T (nodeptr tmp;) N
+(155) S 8 T () S 16 T (T data;) N
+(156) S 8 T () S 16 T () N
+(157) S 8 T () S 16 T (data = head->data;) N
+(158) S 8 T () S 16 T (tmp = head;) N
+(159) S 8 T () S 16 T (head = head->next;) N
+(160) S 8 T () S 16 T (delete tmp;) N
+(161) S 8 T () S 16 T (return data;) N
+(162) S 8 T (}) N
+(163) S 8 T () N
+(164) S 8 T (void linkedlist::insert\(const T& newdata\)) S 56 T () S 64 T () S 72 T (// insertion method) N
+(165) S 8 T ({) N
+(166) S 8 T () S 16 T (nodeptr tmp;) N
+(167) S 8 T () S 16 T (tmp = new node;) N
+(168) S 8 T () S 16 T (tmp->data = newdata;) N
+() N
+(stdin) (Page 9/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (9/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (10) 10
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/linkedlist.cpp Page 4) N
+() N
+() N
+(169) S 8 T () S 16 T (tmp->next = NULL;) N
+(170) S 8 T () N
+(171) S 8 T () S 16 T (nodeptr curr;) N
+(172) S 8 T () S 16 T (nodeptr prev;) N
+(173) S 8 T () S 16 T (curr = head;) N
+(174) S 8 T () S 16 T (prev = NULL;) N
+(175) S 8 T () N
+(176) S 8 T () S 16 T (while \(curr && listdatacmp\(newdata, curr->data\) >= 0\)) N
+(177) S 8 T () S 16 T ({) N
+(178) S 8 T () S 16 T () S 24 T (prev = curr;) N
+(179) S 8 T () S 16 T () S 24 T (curr = curr->next;) N
+(180) S 8 T () S 16 T (}) N
+(181) S 8 T () N
+(182) S 8 T () S 16 T (if \(prev == NULL\)) N
+(183) S 8 T () S 16 T () S 24 T (head = tmp;) N
+(184) S 8 T () S 16 T (else) N
+(185) S 8 T () S 16 T () S 24 T (prev->next = tmp;) N
+(186) S 8 T () S 16 T (tmp->next = curr;) N
+(187) S 8 T () N
+(188) S 8 T () N
+(189) S 8 T (}) N
+(190) S 8 T () N
+(191) S 8 T (bool linkedlist::locate\(const T& keydata, T& retresult\)) S 64 T () S 72 T (// locate method) N
+(192) S 8 T ({) N
+(193) S 8 T () S 16 T (nodeptr curr = head;) N
+(194) S 8 T () N
+(195) S 8 T () S 16 T (while \(curr && listdatacmp\(keydata, curr->data\) != 0\)) N
+(196) S 8 T () S 16 T ({) N
+(197) S 8 T () S 16 T () S 24 T (curr = curr->next;) N
+(198) S 8 T () S 16 T (}) N
+(199) S 8 T () N
+(200) S 8 T () S 16 T (if \(curr == NULL\)) N
+(201) S 8 T () S 16 T () S 24 T (return false;) N
+(202) S 8 T () S 16 T (else) N
+(203) S 8 T () S 16 T ({) N
+(204) S 8 T () S 16 T () S 24 T (retresult = curr->data;) N
+(205) S 8 T () S 16 T () S 24 T (return true;) N
+(206) S 8 T () S 16 T (}) N
+(207) S 8 T (}) N
+(208) S 8 T () N
+(209) S 8 T (bool linkedlist::delete_node\(const T& keydata, T& retdata\)) S 72 T () S 80 T (// delete node method) N
+(210) S 8 T ({) N
+(211) S 8 T () S 16 T (nodeptr curr;) N
+(212) S 8 T () S 16 T (nodeptr prev;) N
+(213) S 8 T () S 16 T (curr = head;) N
+(214) S 8 T () S 16 T (prev = NULL;) N
+(215) S 8 T () S 16 T () N
+(216) S 8 T () S 16 T (while \(curr != NULL && listdatacmp\(keydata, curr->data\) != 0\)) N
+(217) S 8 T () S 16 T ({) N
+(218) S 8 T () S 16 T () S 24 T (prev = curr;) N
+(219) S 8 T () S 16 T () S 24 T (curr = curr->next;) N
+(220) S 8 T () S 16 T (}) N
+(221) S 8 T () N
+(222) S 8 T () S 16 T (if \(curr == NULL\)) N
+(223) S 8 T () S 16 T ({) N
+(224) S 8 T () S 16 T () S 24 T (return false;) N
+() N
+(stdin) (Page 10/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (10/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (11) 11
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/linkedlist.cpp Page 5) N
+() N
+() N
+(225) S 8 T () S 16 T (}) N
+(226) S 8 T () N
+(227) S 8 T () S 16 T (if \(prev\)) N
+(228) S 8 T () S 16 T ({) N
+(229) S 8 T () S 16 T () S 24 T (prev->next = curr->next;) N
+(230) S 8 T () S 16 T () S 24 T (retdata = curr->data;) N
+(231) S 8 T () S 16 T () S 24 T (delete curr;) N
+(232) S 8 T () S 16 T () S 24 T (return true;) N
+(233) S 8 T () S 16 T (}) N
+(234) S 8 T () S 16 T (else) N
+(235) S 8 T () S 16 T ({) N
+(236) S 8 T () S 16 T () S 24 T (head = curr->next;) N
+(237) S 8 T () S 16 T () S 24 T (retdata = curr->data;) N
+(238) S 8 T () S 16 T () S 24 T (delete curr;) N
+(239) S 8 T () S 16 T () S 24 T (return true;) N
+(240) S 8 T () S 16 T (}) N
+(241) S 8 T (}) N
+(242) S 8 T (bool linkedlist::print\(ostream&\)) N
+(243) S 8 T ({) N
+(244) S 8 T () S 16 T (if \(head == NULL\)) N
+(245) S 8 T () S 16 T ({) N
+(246) S 8 T () S 16 T () S 24 T (return false;) N
+(247) S 8 T () S 16 T (}) N
+(248) S 8 T () S 16 T (nodeptr temp = head;) S 40 T () S 48 T () S 56 T () S 64 T (// do not change the head pointer) N
+(249) S 8 T () S 16 T (while \(temp != NULL\)) N
+(250) S 8 T () S 16 T ({) N
+(251) S 8 T () S 16 T () S 24 T (cout << "token = " << temp->data.content << '\\t' << "line_num = " << temp->data.line_num;) N
+(252) S 8 T () S 16 T () S 24 T (cout << endl;) N
+(253) S 8 T () S 16 T () S 24 T (temp = temp->next;) N
+(254) S 8 T () S 16 T (}) N
+(255) S 8 T () S 16 T (return true;) N
+(256) S 8 T () N
+(257) S 8 T (}) N
+() N
+(stdin) (Page 11/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (11/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (12) 12
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/main.cpp Page 1) N
+() N
+() N
+(  1) S 8 T (/********************************) N
+(  2) S 8 T (*Filename:main.cpp) S 32 T () S 40 T (*) N
+(  3) S 8 T (*Login:by932) S 24 T () S 32 T () S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () S 104 T () N
+(  4) S 8 T (*AssignmentNo:ass5) S 32 T () S 40 T (*) N
+(  5) S 8 T (*DateLastModified:2/11/2014) S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(  6) S 8 T (********************************/) N
+(  7) S 8 T (#include <iostream>) N
+(  8) S 8 T (#include "program.h") N
+(  9) S 8 T (using namespace std;) N
+( 10) S 8 T () N
+( 11) S 8 T (int main\(\)) N
+( 12) S 8 T ({) N
+( 13) S 8 T () S 16 T (program test_program_class;) N
+( 14) S 8 T () S 16 T (LIST test_list_class;) N
+( 15) S 8 T () S 16 T () N
+( 16) S 8 T () S 16 T (test_program_class.getline\(test_list_class\);) N
+( 17) S 8 T () S 16 T (test_list_class.print\(cout\);) N
+( 18) S 8 T () S 16 T (return 0;) N
+( 19) S 8 T (}) N
+() N
+(stdin) (Page 12/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (12/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (13) 13
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/program-list.cpp Page 1) N
+() N
+() N
+(  1) S 8 T (/********************************) N
+(  2) S 8 T (*Filename:program-list.cpp) S 40 T (*) N
+(  3) S 8 T (*Login:by932) S 24 T () S 32 T () S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () S 104 T () N
+(  4) S 8 T (*AssignmentNo:ass5) S 32 T () S 40 T (*) N
+(  5) S 8 T (*DateLastModified:2/11/2014) S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(  6) S 8 T (********************************/) N
+(  7) S 8 T (#include <iostream>) N
+(  8) S 8 T (#include "program-list.h") N
+(  9) S 8 T (using namespace std;) N
+( 10) S 8 T (// constructor) N
+( 11) S 8 T (LIST::LIST\(\)) N
+( 12) S 8 T ({) N
+( 13) S 8 T () S 16 T (head = NULL;) N
+( 14) S 8 T () N
+( 15) S 8 T (}) N
+( 16) S 8 T () N
+( 17) S 8 T (//deconstructor) N
+( 18) S 8 T (LIST::~LIST\(\)) N
+( 19) S 8 T ({) N
+( 20) S 8 T () S 16 T (node* temp = head;) N
+( 21) S 8 T () S 16 T (while\(temp && temp->next\)) N
+( 22) S 8 T () S 16 T ({) N
+( 23) S 8 T () S 16 T () S 24 T (temp=temp->next;) N
+( 24) S 8 T () S 16 T () S 24 T (delete temp;) S 40 T (//delet linked-list) N
+( 25) S 8 T () S 16 T (}) N
+( 26) S 8 T (}) N
+( 27) S 8 T () N
+( 28) S 8 T (bool LIST::load\(char token[], int line\)) N
+( 29) S 8 T ({) N
+( 30) S 8 T () N
+( 31) S 8 T () S 16 T (if \(head == NULL\)) S 40 T (// linked list is empty - so this will be the head node) N
+( 32) S 8 T () S 16 T ({) S 24 T () S 32 T () S 40 T () N
+( 33) S 8 T () N
+( 34) S 8 T () S 16 T () S 24 T (NPtr newnode = new node;) N
+( 35) S 8 T () N
+( 36) S 8 T () S 16 T () S 24 T (if \(newnode == NULL\)) S 48 T () S 56 T (// could not allocate memory) N
+( 37) S 8 T () S 16 T () S 24 T ({) N
+( 38) S 8 T () S 16 T () S 24 T () S 32 T (cout << "Allocation error occured" << endl;) N
+( 39) S 8 T () S 16 T () S 24 T () S 32 T (return false;) N
+( 40) S 8 T () S 16 T () S 24 T (}) S 32 T () N
+( 41) S 8 T () S 16 T () S 24 T (strcpy\(newnode->content, token\);) N
+( 42) S 8 T () S 16 T () S 24 T (newnode->line = line;) N
+( 43) S 8 T () S 16 T () S 24 T (newnode->next = NULL;) N
+( 44) S 8 T () S 16 T () S 24 T (head = newnode;) N
+( 45) S 8 T () S 16 T () S 24 T () N
+( 46) S 8 T () S 16 T (}) N
+( 47) S 8 T () S 16 T (else) S 24 T () S 32 T (// if not here then the linked list exists) N
+( 48) S 8 T () S 16 T ({) N
+( 49) S 8 T () S 16 T () S 24 T (NPtr check = head;) N
+( 50) S 8 T () S 16 T () S 24 T (while \(check != NULL\)) N
+( 51) S 8 T () S 16 T () S 24 T ({) S 32 T () S 40 T () S 48 T () N
+( 52) S 8 T () S 16 T () S 24 T () S 32 T (if \(check->next == NULL\)) N
+( 53) S 8 T () S 16 T () S 24 T () S 32 T ({) S 40 T () S 48 T () S 56 T () S 64 T () S 72 T () N
+( 54) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (NPtr newnode = new node;) N
+( 55) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (if \(newnode == NULL\)) N
+( 56) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T ({) N
+() N
+(stdin) (Page 13/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (13/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (14) 14
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/program-list.cpp Page 2) N
+() N
+() N
+( 57) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (cout << "Allocation error occured" << endl;) N
+( 58) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (return false;) N
+( 59) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+( 60) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (strcpy\(newnode->content, token\);) S 80 T (//store token) N
+( 61) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (newnode->line = line;) S 64 T (//give the line number) N
+( 62) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (newnode->next = NULL;) S 64 T (//new node next node = null) N
+( 63) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (check->next = newnode;) N
+( 64) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (break;) N
+( 65) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+( 66) S 8 T () S 16 T () S 24 T () S 32 T (check = check->next;) N
+( 67) S 8 T () S 16 T () S 24 T () S 32 T () N
+( 68) S 8 T () S 16 T () S 24 T (}) N
+( 69) S 8 T () S 16 T (}) N
+( 70) S 8 T () S 16 T (return true;) N
+( 71) S 8 T () S 16 T () N
+( 72) S 8 T (}) N
+( 73) S 8 T () N
+( 74) S 8 T (bool LIST::print\(ostream&\)) N
+( 75) S 8 T ({) N
+( 76) S 8 T () S 16 T (cout << "Start output Part 1" << endl;) N
+( 77) S 8 T () S 16 T (if \(head == NULL\)) N
+( 78) S 8 T () S 16 T ({) N
+( 79) S 8 T () S 16 T () S 24 T (return false;) N
+( 80) S 8 T () S 16 T (}) N
+( 81) S 8 T () S 16 T (NPtr temp = head;) S 40 T () S 48 T () S 56 T () S 64 T (// do not change the head pointer) N
+( 82) S 8 T () S 16 T (while \(temp != NULL\)) N
+( 83) S 8 T () S 16 T ({) N
+( 84) S 8 T () S 16 T () S 24 T (//cout << "token = " << temp->content << '\\t' << "line_num = " << temp->line;) N
+( 85) S 8 T () S 16 T () S 24 T (//cout << endl;) N
+( 86) S 8 T () S 16 T () S 24 T (temp = temp->next;) N
+( 87) S 8 T () S 16 T (}) N
+( 88) S 8 T () S 16 T (cout << "End output Part 1" << endl;) N
+( 89) S 8 T () S 16 T (return true;) N
+( 90) S 8 T () N
+( 91) S 8 T (}) N
+() N
+(stdin) (Page 14/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (14/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (15) 15
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/program.cpp Page 1) N
+() N
+() N
+(  1) S 8 T (/********************************) N
+(  2) S 8 T (*Filename:program.cpp) S 32 T () S 40 T (*) N
+(  3) S 8 T (*Login:by932) S 24 T () S 32 T () S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () S 104 T () N
+(  4) S 8 T (*AssignmentNo:ass5) S 32 T () S 40 T (*) N
+(  5) S 8 T (*DateLastModified:2/11/2014) S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(  6) S 8 T (********************************/) N
+(  7) S 8 T (#include <iostream>) N
+(  8) S 8 T (#include <fstream>) N
+(  9) S 8 T (#include <cstring>) N
+( 10) S 8 T (#include "program.h") N
+( 11) S 8 T (#include "binarytree.h") N
+( 12) S 8 T (using namespace std;) N
+( 13) S 8 T (//Global Data) N
+( 14) S 8 T (BinaryTree WordTree;) N
+( 15) S 8 T () N
+( 16) S 8 T (bool bonus\(char []\);//delete 62 reserved words) N
+( 17) S 8 T (program::program\(\)) N
+( 18) S 8 T ({) N
+( 19) S 8 T () S 16 T (line_no = 1;) S 32 T (//init line_no) N
+( 20) S 8 T () N
+( 21) S 8 T (}) N
+( 22) S 8 T (program::~program\(\)) N
+( 23) S 8 T ({) N
+( 24) S 8 T () S 16 T (fin.close\(\);) S 32 T (//close the file) N
+( 25) S 8 T (}) N
+( 26) S 8 T () N
+( 27) S 8 T (bool program::open\(char source_file[]\)) N
+( 28) S 8 T ({) N
+( 29) S 8 T () S 16 T () N
+( 30) S 8 T () S 16 T (fin.open\(source_file\);) S 40 T (//open file) N
+( 31) S 8 T () S 16 T () N
+( 32) S 8 T () S 16 T (if\(!fin\)) N
+( 33) S 8 T () S 16 T ({) N
+( 34) S 8 T () S 16 T () S 24 T (cout << "Cann't find file"<< endl;) N
+( 35) S 8 T () S 16 T () S 24 T (return false;) S 40 T (// open file false) N
+( 36) S 8 T () S 16 T (}) N
+( 37) S 8 T () S 16 T (return true;) S 32 T (//open file good) N
+( 38) S 8 T () N
+( 39) S 8 T (}) N
+( 40) S 8 T () N
+( 41) S 8 T (bool program::getline\(LIST& obj\)) N
+( 42) S 8 T ({) N
+( 43) S 8 T () S 16 T (char fname[100], token[40], ch;) N
+( 44) S 8 T () S 16 T (int line_pos, carryon, i;) N
+( 45) S 8 T () S 16 T () N
+( 46) S 8 T () S 16 T (cout << "Enter a filename: ";) N
+( 47) S 8 T () S 16 T (cin >> fname;) N
+( 48) S 8 T () N
+( 49) S 8 T () S 16 T (bool good_or_bad = true;) S 48 T (//open file status good or bad, true is good) N
+( 50) S 8 T () S 16 T (good_or_bad = open\(fname\);) N
+( 51) S 8 T () N
+( 52) S 8 T () S 16 T (if \(good_or_bad == true\)) N
+( 53) S 8 T () S 16 T ({) N
+( 54) S 8 T () S 16 T () S 24 T (line_pos = 0;) N
+( 55) S 8 T () S 16 T () S 24 T (token[0] = 0;) S 40 T () S 48 T (// initialise token) S 72 T () N
+( 56) S 8 T () S 16 T () N
+() N
+(stdin) (Page 15/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (15/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (16) 16
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/program.cpp Page 2) N
+() N
+() N
+( 57) S 8 T () S 16 T () S 24 T (ch = fin.get\(\);) S 40 T () N
+( 58) S 8 T () S 16 T () S 24 T (while \(!fin.eof\(\)\)) N
+( 59) S 8 T () S 16 T () S 24 T ({) N
+( 60) S 8 T () S 16 T () S 24 T () S 32 T (//Eating all comments) N
+( 61) S 8 T () S 16 T () S 24 T () S 32 T (if \(ch == '/'\)) N
+( 62) S 8 T () S 16 T () S 24 T () S 32 T ({) N
+( 63) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (ch = fin.get\(\);) S 56 T () N
+( 64) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (line_pos++;) N
+( 65) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (//"//"type comment - eat both characters and all to newline) N
+( 66) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (if \(ch == '/'\)) N
+( 67) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T ({) N
+( 68) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (do) N
+( 69) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T ({) N
+( 70) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (ch = fin.get\(\);) S 72 T () N
+( 71) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (} while \(ch != '\\n'\);) N
+( 72) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (line_no++;) N
+( 73) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (line_pos = 0;) N
+( 74) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (ch = fin.get\(\); // now positioned at start of next line) N
+( 75) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+( 76) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (//old type comment/* */ - eat both characters and all to end) N
+( 77) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (else if \(ch == '*'\)) N
+( 78) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T ({) N
+( 79) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (carryon = 1;) N
+( 80) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (ch = fin.get\(\);) S 64 T () N
+( 81) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (while \(carryon\)) N
+( 82) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T ({) N
+( 83) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (if \(ch == '\\n'\)) N
+( 84) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T ({) N
+( 85) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (line_no++;) N
+( 86) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (line_pos = 0;) N
+( 87) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (ch = fin.get\(\);) S 80 T () N
+( 88) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (}) N
+( 89) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (else if \(ch == '*'\)) N
+( 90) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T ({) N
+( 91) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (ch = fin.get\(\);) S 80 T () N
+( 92) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (if \(ch == '/'\)) N
+( 93) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T () S 72 T (carryon = 0;) N
+( 94) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (}) N
+( 95) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (else) N
+( 96) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T () S 64 T (ch = fin.get\(\);) N
+( 97) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (}) N
+( 98) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (ch = fin.get\(\);) N
+( 99) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (line_pos = 1;) S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(100) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+(101) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+(102) S 8 T () S 16 T () S 24 T () S 32 T (else if \(ch == '"'\)) N
+(103) S 8 T () S 16 T () S 24 T () S 32 T ({) N
+(104) S 8 T () S 16 T () S 24 T () S 32 T (//character string constant - eat all characters to other end) N
+(105) S 8 T () S 16 T () S 24 T () S 32 T (//avoiding \\anything) N
+(106) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (ch = fin.get\(\);) N
+(107) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (while \(ch != '"'\)) N
+(108) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T ({) N
+(109) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (if \(ch == '\\\\'\)) N
+(110) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (ch = fin.get\(\);) N
+(111) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (ch = fin.get\(\);) N
+(112) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+() N
+(stdin) (Page 16/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (16/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (17) 17
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/program.cpp Page 3) N
+() N
+() N
+(113) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (ch = fin.get\(\);) N
+(114) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+(115) S 8 T () S 16 T () S 24 T () S 32 T (else if \(ch == '\\''\)) N
+(116) S 8 T () S 16 T () S 24 T () S 32 T ({) N
+(117) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (//character constant - as for character string) N
+(118) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (ch = fin.get\(\);) N
+(119) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (while \(ch != '\\''\)) N
+(120) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T ({) N
+(121) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (if \(ch == '\\\\'\)) N
+(122) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () S 56 T (ch = fin.get\(\);) N
+(123) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (ch = fin.get\(\);) N
+(124) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+(125) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (ch = fin.get\(\);) N
+(126) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+(127) S 8 T () S 16 T () S 24 T () S 32 T (else if \(line_pos == 0 && ch == '#'\)) N
+(128) S 8 T () S 16 T () S 24 T () S 32 T ({) N
+(129) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (//# pre-processor line - eat # and all to newline) N
+(130) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (do) N
+(131) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T ({) N
+(132) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (ch = fin.get\(\);) N
+(133) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (} while \(ch != '\\n'\);) N
+(134) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (ch = fin.get\(\);) N
+(135) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (line_no++;) N
+(136) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (line_pos = 0;) S 56 T () N
+(137) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+(138) S 8 T () S 16 T () S 24 T () S 32 T (else if \(isalpha\(ch\)\)) S 56 T (// start of token) N
+(139) S 8 T () S 16 T () S 24 T () S 32 T ({) N
+(140) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (i = 0;) N
+(141) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (do) N
+(142) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T ({) N
+(143) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T () N
+(144) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (token[i++] = ch;) N
+(145) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (ch = fin.get\(\);) N
+(146) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (} while \(isalnum\(ch\) || ch == '_'\);) N
+(147) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (token[i] = 0;) S 56 T (//token end) N
+(148) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (bool jud = true;) N
+(149) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (jud = bonus\(token\);) S 64 T (//delete 62 reserved words) N
+(150) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (if \(jud == false\)) N
+(151) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (continue;) N
+(152) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (//This is part 1) N
+(153) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (obj.load\(token,line_no\);//store token and line number to the list) N
+(154) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () N
+(155) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (//This is part 2) N
+(156) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (bnode *temp = new bnode;) N
+(157) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (temp->content = token;) N
+(158) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (temp->line_num = line_no;) N
+(159) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (temp->data.addtotail\(token, line_no\);) N
+(160) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (linked_list foundData;) N
+(161) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () N
+(162) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (if \(WordTree.Locate\(temp, foundData\)\)) N
+(163) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T ({) N
+(164) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (//This part is store same line token to the linked-list) N
+(165) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (foundData->line_num = line_no;) N
+(166) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (foundData->data.addtotail\(token, line_no\);) N
+(167) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (delete temp;) N
+(168) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+() N
+(stdin) (Page 17/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (17/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (18) 18
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/program.cpp Page 4) N
+() N
+() N
+(169) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (else) N
+(170) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T ({) N
+(171) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (//This is set up a new tree node) N
+(172) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T () S 48 T (WordTree.Insert\(temp\);) N
+(173) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (}) N
+(174) S 8 T () N
+(175) S 8 T () N
+(176) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (token[0] = 0;) S 56 T (// initialise token) N
+(177) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+(178) S 8 T () S 16 T () S 24 T () S 32 T (else if \(ch == '\\n'\)) S 56 T (// just a newline) N
+(179) S 8 T () S 16 T () S 24 T () S 32 T ({) N
+(180) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (line_no++;) N
+(181) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (line_pos = 0;) N
+(182) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (ch = fin.get\(\);) N
+(183) S 8 T () S 16 T () S 24 T () S 32 T (}) N
+(184) S 8 T () S 16 T () S 24 T () S 32 T (else) N
+(185) S 8 T () S 16 T () S 24 T () S 32 T () S 40 T (ch = fin.get\(\);) N
+(186) S 8 T () S 16 T () S 24 T (}) N
+(187) S 8 T () S 16 T (}) N
+(188) S 8 T () S 16 T (return true;) N
+(189) S 8 T () N
+(190) S 8 T (}) N
+(191) S 8 T (//this is part 3) N
+(192) S 8 T (bool bonus\(char token[]\)) N
+(193) S 8 T ({) N
+(194) S 8 T () S 16 T (if \(strcmp\(token, "asm"\) == 0 ||) N
+(195) S 8 T () S 16 T (strcmp\(token, "casecatch"\) == 0 ||) N
+(196) S 8 T () S 16 T (strcmp\(token, "const_cast"\) == 0 ||) N
+(197) S 8 T () S 16 T (strcmp\(token, "do"\) == 0 ||) N
+(198) S 8 T () S 16 T (strcmp\(token, "enum"\) == 0 ||) N
+(199) S 8 T () S 16 T (strcmp\(token, "float"\) == 0 ||) N
+(200) S 8 T () S 16 T (strcmp\(token, "if"\) == 0 ||) N
+(201) S 8 T () S 16 T (strcmp\(token, "mutable"\) == 0 ||) N
+(202) S 8 T () S 16 T (strcmp\(token, "private"\) == 0 ||) N
+(203) S 8 T () S 16 T (strcmp\(token, "reinterpret_cast"\) == 0 ||) N
+(204) S 8 T () S 16 T (strcmp\(token, "sizeof"\) == 0 ||) N
+(205) S 8 T () S 16 T (strcmp\(token, "switch"\) == 0 ||) N
+(206) S 8 T () S 16 T (strcmp\(token, "true"\) == 0 ||) N
+(207) S 8 T () S 16 T (strcmp\(token, "typename"\) == 0 ||) N
+(208) S 8 T () S 16 T (strcmp\(token, "virtual"\) == 0 ||) N
+(209) S 8 T () S 16 T (strcmp\(token, "while"\) == 0 ||) N
+(210) S 8 T () S 16 T (strcmp\(token, "auto"\) == 0 ||) N
+(211) S 8 T () S 16 T (strcmp\(token, "char"\) == 0 ||) N
+(212) S 8 T () S 16 T (strcmp\(token, "continue"\) == 0 ||) N
+(213) S 8 T () S 16 T (strcmp\(token, "double"\) == 0 ||) N
+(214) S 8 T () S 16 T (strcmp\(token, "explicit"\) == 0 ||) N
+(215) S 8 T () S 16 T (strcmp\(token, "for"\) == 0 ||) N
+(216) S 8 T () S 16 T (strcmp\(token, "inline"\) == 0 ||) N
+(217) S 8 T () S 16 T (strcmp\(token, "namespace"\) == 0 ||) N
+(218) S 8 T () S 16 T (strcmp\(token, "protected"\) == 0 ||) N
+(219) S 8 T () S 16 T (strcmp\(token, "return"\) == 0 ||) N
+(220) S 8 T () S 16 T (strcmp\(token, "static"\) == 0 ||) N
+(221) S 8 T () S 16 T (strcmp\(token, "template"\) == 0 ||) N
+(222) S 8 T () S 16 T (strcmp\(token, "try"\) == 0 ||) N
+(223) S 8 T () S 16 T (strcmp\(token, "union"\) == 0 ||) N
+(224) S 8 T () S 16 T (strcmp\(token, "void"\) == 0 ||) N
+() N
+(stdin) (Page 18/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (18/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (19) 19
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/program.cpp Page 5) N
+() N
+() N
+(225) S 8 T () S 16 T (strcmp\(token, "bool"\) == 0 ||) N
+(226) S 8 T () S 16 T (strcmp\(token, "class"\) == 0 ||) N
+(227) S 8 T () S 16 T (strcmp\(token, "default"\) == 0 ||) N
+(228) S 8 T () S 16 T (strcmp\(token, "dynamic_cast"\) == 0 ||) N
+(229) S 8 T () S 16 T (strcmp\(token, "extern"\) == 0 ||) N
+(230) S 8 T () S 16 T (strcmp\(token, "friend"\) == 0 ||) N
+(231) S 8 T () S 16 T (strcmp\(token, "int"\) == 0 ||) N
+(232) S 8 T () S 16 T (strcmp\(token, "new"\) == 0 ||) N
+(233) S 8 T () S 16 T (strcmp\(token, "public"\) == 0 ||) N
+(234) S 8 T () S 16 T (strcmp\(token, "short"\) == 0 ||) N
+(235) S 8 T () S 16 T (strcmp\(token, "static_cast"\) == 0 ||) N
+(236) S 8 T () S 16 T (strcmp\(token, "this"\) == 0 ||) N
+(237) S 8 T () S 16 T (strcmp\(token, "typedef"\) == 0 ||) N
+(238) S 8 T () S 16 T (strcmp\(token, "unsigned"\) == 0 ||) N
+(239) S 8 T () S 16 T (strcmp\(token, "volatile"\) == 0 ||) N
+(240) S 8 T () S 16 T (strcmp\(token, "break"\) == 0 ||) N
+(241) S 8 T () S 16 T (strcmp\(token, "const"\) == 0 ||) N
+(242) S 8 T () S 16 T (strcmp\(token, "delete"\) == 0 ||) N
+(243) S 8 T () S 16 T (strcmp\(token, "else"\) == 0 ||) N
+(244) S 8 T () S 16 T (strcmp\(token, "false"\) == 0 ||) N
+(245) S 8 T () S 16 T (strcmp\(token, "goto"\) == 0 ||) N
+(246) S 8 T () S 16 T (strcmp\(token, "long"\) == 0 ||) N
+(247) S 8 T () S 16 T (strcmp\(token, "operator"\) == 0 ||) N
+(248) S 8 T () S 16 T (strcmp\(token, "register"\) == 0 ||) N
+(249) S 8 T () S 16 T (strcmp\(token, "signed"\) == 0 ||) N
+(250) S 8 T () S 16 T (strcmp\(token, "struct"\) == 0 ||) N
+(251) S 8 T () S 16 T (strcmp\(token, "throw"\) == 0 ||) N
+(252) S 8 T () S 16 T (strcmp\(token, "typeid"\) == 0 ||) N
+(253) S 8 T () S 16 T (strcmp\(token, "using"\) == 0 ||) N
+(254) S 8 T () S 16 T (strcmp\(token, "wchar_t"\) == 0\)) N
+(255) S 8 T () S 16 T () S 24 T (return false;) N
+(256) S 8 T () S 16 T () S 24 T () N
+(257) S 8 T () S 16 T (return true;) N
+(258) S 8 T () S 16 T () N
+(259) S 8 T (}) N
+() N
+(stdin) (Page 19/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (19/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (20) 20
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/binarytree.h Page 1) N
+() N
+() N
+(  1) S 8 T (/********************************) N
+(  2) S 8 T (*Filename:binarytree.h) S 32 T () S 40 T (*) N
+(  3) S 8 T (*Login:by932) S 24 T () S 32 T () S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () S 104 T () N
+(  4) S 8 T (*AssignmentNo:ass5) S 32 T () S 40 T (*) N
+(  5) S 8 T (*DateLastModified:2/11/2014) S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(  6) S 8 T (********************************/) N
+(  7) S 8 T (#include <iostream>) N
+(  8) S 8 T (#include <cstring>) N
+(  9) S 8 T (#include "linkedlist.h") N
+( 10) S 8 T (using namespace std;) N
+( 11) S 8 T (// Definition of data contained in BinaryTree) N
+( 12) S 8 T (struct bnode) N
+( 13) S 8 T ({) N
+( 14) S 8 T () S 16 T (linkedlist data;) S 40 T (//store token) N
+( 15) S 8 T () S 16 T (int line_num;) S 32 T (//story line number) N
+( 16) S 8 T () S 16 T (char *content;) S 32 T (//token content[40];) N
+( 17) S 8 T (};) N
+( 18) S 8 T () N
+( 19) S 8 T (typedef bnode * linked_listPtr;) N
+( 20) S 8 T () N
+( 21) S 8 T (typedef linked_listPtr linked_list;) N
+( 22) S 8 T () N
+( 23) S 8 T () N
+( 24) S 8 T (class BinaryTree) N
+( 25) S 8 T ({) S 16 T () N
+( 26) S 8 T () S 16 T (public:) N
+( 27) S 8 T () S 16 T () S 24 T (BinaryTree\(\);//constructor) N
+( 28) S 8 T () S 16 T () S 24 T (~BinaryTree\(\);// destructor) N
+( 29) S 8 T () S 16 T () S 24 T (void Insert\(const linked_list&\);) N
+( 30) S 8 T () S 16 T () S 24 T (bool Locate\(const linked_list&, linked_list&\);) N
+( 31) S 8 T () S 16 T () S 24 T (bool Delete\(const linked_list&, linked_list&\);) N
+( 32) S 8 T () S 16 T () S 24 T () N
+( 33) S 8 T () S 16 T () S 24 T (// iterator methods) N
+( 34) S 8 T () S 16 T () S 24 T (void SetIterator\(\);) S 48 T () S 56 T (// find left most node) N
+( 35) S 8 T () S 16 T () S 24 T (linked_list Next\(\);) S 48 T () S 56 T (// return next data item) N
+( 36) S 8 T () S 16 T () S 24 T (bool More\(\);) S 40 T () S 48 T () S 56 T (// are there any more nodes?) N
+( 37) S 8 T () S 16 T () S 24 T () N
+( 38) S 8 T () S 16 T (private:) N
+( 39) S 8 T () S 16 T () S 24 T (struct TreeNode) N
+( 40) S 8 T () S 16 T () S 24 T ({) N
+( 41) S 8 T () S 16 T () S 24 T () S 32 T (linked_list data;) N
+( 42) S 8 T () S 16 T () S 24 T () S 32 T (TreeNode *left, *right, *parent;) N
+( 43) S 8 T () S 16 T () S 24 T (};) N
+( 44) S 8 T () N
+( 45) S 8 T () S 16 T () S 24 T (TreeNode* root;) N
+( 46) S 8 T () S 16 T () S 24 T (TreeNode* curr;) S 40 T () S 48 T () S 56 T () S 64 T (// used by iterator) N
+( 47) S 8 T () S 16 T () S 24 T () N
+( 48) S 8 T () S 16 T () S 24 T (TreeNode* FindNode\(const linked_list&, TreeNode*\);) N
+( 49) S 8 T () S 16 T () S 24 T (void InsertNode\(const linked_list&, TreeNode*&\);) N
+( 50) S 8 T () S 16 T (//this function is given the root node and will do a post order deletion of the nodes) N
+( 51) S 8 T () S 16 T () S 24 T (void postorderdelete\(TreeNode*\);) N
+( 52) S 8 T (};) N
+( 53) S 8 T () N
+( 54) S 8 T () N
+() N
+(stdin) (Page 20/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (20/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (21) 21
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/linkedlist.h Page 1) N
+() N
+() N
+(  1) S 8 T (/********************************) N
+(  2) S 8 T (*Filename:linkedlist.h) S 32 T () S 40 T (*) N
+(  3) S 8 T (*Login:by932) S 24 T () S 32 T () S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () S 104 T () N
+(  4) S 8 T (*AssignmentNo:ass5) S 32 T () S 40 T (*) N
+(  5) S 8 T (*DateLastModified:2/11/2014) S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(  6) S 8 T (********************************/) N
+(  7) S 8 T (#include <iostream>) N
+(  8) S 8 T (using namespace std;) N
+(  9) S 8 T () N
+( 10) S 8 T (struct linkedlist_node) N
+( 11) S 8 T ({) N
+( 12) S 8 T () S 16 T (char *content;) N
+( 13) S 8 T () S 16 T (int line_num;) S 32 T (//story line number) N
+( 14) S 8 T (};) N
+( 15) S 8 T () N
+( 16) S 8 T (typedef linkedlist_node T;) N
+( 17) S 8 T () N
+( 18) S 8 T () N
+( 19) S 8 T () N
+( 20) S 8 T (class linkedlist) N
+( 21) S 8 T ({) N
+( 22) S 8 T () S 16 T (public:) S 24 T (// public methods) N
+( 23) S 8 T () S 16 T () S 24 T (linkedlist\(\);) N
+( 24) S 8 T () S 16 T () S 24 T (~linkedlist\(\);) N
+( 25) S 8 T () S 16 T () S 24 T (// the destructor has been removed - when you need to delete you must do by hand) N
+( 26) S 8 T () S 16 T () S 24 T (void addtotail\(char [], int\);) N
+( 27) S 8 T () S 16 T () S 24 T (bool print\(ostream&\);) S 48 T (//Print out the linked-list) N
+( 28) S 8 T () S 16 T () S 24 T () N
+( 29) S 8 T () S 16 T () S 24 T () N
+( 30) S 8 T () S 16 T () S 24 T (bool isempty\(\);) N
+( 31) S 8 T () S 16 T () S 24 T (T removefromhead\(\);) N
+( 32) S 8 T () S 16 T () S 24 T (void insert\(const T&\);) N
+( 33) S 8 T () S 16 T () S 24 T (bool locate\(const T&, T&\);) N
+( 34) S 8 T () S 16 T () S 24 T (bool delete_node\(const T&, T&\);) N
+( 35) S 8 T () S 16 T () S 24 T () N
+( 36) S 8 T () S 16 T () S 24 T (bool deletecurrent\(T&\);) N
+( 37) S 8 T () S 16 T () S 24 T (void insertbeforecurrent\(const T&\);) N
+( 38) S 8 T () S 16 T () S 24 T (void setiterator\(\);) N
+( 39) S 8 T () S 16 T () S 24 T (T next\(\);) N
+( 40) S 8 T () S 16 T () S 24 T (bool more\(\);) N
+( 41) S 8 T () S 16 T (private:) S 32 T (// node data and declaration - hidden in class) N
+( 42) S 8 T () S 16 T () S 24 T (struct node;) N
+( 43) S 8 T () S 16 T () S 24 T (typedef node* nodeptr;) N
+( 44) S 8 T () S 16 T () S 24 T (nodeptr iterator_current;) N
+( 45) S 8 T () S 16 T () S 24 T (struct node) N
+( 46) S 8 T () S 16 T () S 24 T ({) N
+( 47) S 8 T () S 16 T () S 24 T () S 32 T (T data;) N
+( 48) S 8 T () S 16 T () S 24 T () S 32 T (nodeptr next;) N
+( 49) S 8 T () S 16 T () S 24 T (};) N
+( 50) S 8 T () S 16 T () S 24 T (nodeptr head;) N
+( 51) S 8 T (};) S 16 T () N
+( 52) S 8 T () N
+() N
+(stdin) (Page 21/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (21/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (22) 22
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/program-list.h Page 1) N
+() N
+() N
+(  1) S 8 T (/********************************) N
+(  2) S 8 T (*Filename:program-list.h) S 40 T (*) N
+(  3) S 8 T (*Login:by932) S 24 T () S 32 T () S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () S 104 T () N
+(  4) S 8 T (*AssignmentNo:ass5) S 32 T () S 40 T (*) N
+(  5) S 8 T (*DateLastModified:2/11/2014) S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(  6) S 8 T (********************************/) N
+(  7) S 8 T (#include <iostream>) N
+(  8) S 8 T (#include <cstring>) N
+(  9) S 8 T (using namespace std;) N
+( 10) S 8 T (struct node) N
+( 11) S 8 T ({) N
+( 12) S 8 T () S 16 T (char content[40];) N
+( 13) S 8 T () S 16 T (int line;) N
+( 14) S 8 T () S 16 T (node *next;) N
+( 15) S 8 T (};) N
+( 16) S 8 T (typedef node* NPtr;) N
+( 17) S 8 T (class LIST) N
+( 18) S 8 T ({) N
+( 19) S 8 T ( ) S 16 T (public:) N
+( 20) S 8 T (  ) S 16 T () S 24 T (LIST\(\);) N
+( 21) S 8 T (  ) S 16 T () S 24 T (~LIST\(\);) N
+( 22) S 8 T (  ) S 16 T () S 24 T (bool load\(char[], int\);) N
+( 23) S 8 T (  ) S 16 T () S 24 T (bool print\(ostream&\);) N
+( 24) S 8 T () S 16 T (private:) N
+( 25) S 8 T () S 16 T (  ) S 24 T (NPtr head;    // pointer to list of chars) N
+( 26) S 8 T () S 16 T (  ) S 24 T (NPtr next;) N
+( 27) S 8 T (};) N
+() N
+(stdin) (Page 22/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (22/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (23) 23
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(Nov  9 11:52 2014  by932/program.h Page 1) N
+() N
+() N
+(  1) S 8 T (/********************************) N
+(  2) S 8 T (*Filename:program.h) S 32 T () S 40 T (*) N
+(  3) S 8 T (*Login:by932) S 24 T () S 32 T () S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () S 104 T () N
+(  4) S 8 T (*AssignmentNo:ass5) S 32 T () S 40 T (*) N
+(  5) S 8 T (*DateLastModified:2/11/2014) S 40 T (*) S 48 T () S 56 T () S 64 T () S 72 T () S 80 T () S 88 T () S 96 T () N
+(  6) S 8 T (********************************/) N
+(  7) S 8 T (#include <iostream>) N
+(  8) S 8 T (#include <fstream>) N
+(  9) S 8 T (#include <cstring>) N
+( 10) S 8 T (#include "program-list.h") N
+( 11) S 8 T (using namespace std;) N
+( 12) S 8 T () N
+( 13) S 8 T (class program) N
+( 14) S 8 T ({) N
+( 15) S 8 T ( ) S 16 T (public:) N
+( 16) S 8 T ( ) S 16 T () S 24 T () N
+( 17) S 8 T (  ) S 16 T () S 24 T (program\(\);) N
+( 18) S 8 T (                ~program\(\);) N
+( 19) S 8 T (                bool open\(char[]\);) S 48 T () S 56 T () S 64 T (// open a file return state i.e. success) N
+( 20) S 8 T () S 16 T () S 24 T (bool getline\(LIST&\);) N
+( 21) S 8 T () S 16 T () S 24 T () S 32 T () N
+( 22) S 8 T () S 16 T (private:) N
+( 23) S 8 T () S 16 T () S 24 T (ifstream fin;) N
+( 24) S 8 T () S 16 T () S 24 T (int line_no;) N
+( 25) S 8 T (};) N
+( 26) S 8 T () N
+( 27) S 8 T () N
+() N
+(stdin) (Page 23/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (23/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (24) 24
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+() p n
+(stdin) (Page 24/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (24/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+%%Page: (25) 25
+%%BeginPageSetup
+/pagesave save def
+sh 0 translate 90 rotate
+%%EndPageSetup
+iso1dict begin
+gsave
+llx lly 12 add translate
+/v 0 store
+/x0 x v get 3.360000 add sx cw mul add store
+/y0 y v get bfs th add sub store
+x0 y0 moveto
+(Enter a filename: Start output Part 1) p n
+(End output Part 1) N
+(stdin) (Page 25/25) (Nov 09, 14 17:16) title
+border
+grestore
+(Printed by Daniel Saffioti) rhead
+(stdin) (25/25) (Sunday November 09, 2014) footer
+end % of iso1dict
+pagesave restore
+showpage
+
+%%Trailer
+end
+%%EOF
